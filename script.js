@@ -16,6 +16,22 @@ function add_book (name, author, page_count, is_read)
   booklist.push(book);
 }
 
+function display_form ()
+{ /*
+  * Create a form to take the data
+  */
+  const form = document.createElement("form");
+  document.body.appendChild(form);
+
+  const name_div = document.createElement("div");
+  name_div.classlist.add("name");
+  form.appendChild(name_div);
+
+  const name_label = document.createElement("label");
+  name_div.appendChild(name_label);
+
+}
+
 function print_books ()
 {
   const table = document.createElement("table");
@@ -69,3 +85,9 @@ function print_books ()
     row.appendChild (book_is_read);
   }
 }
+
+const add_book_btn = document.querySelector(".add-book");
+document.body.appendChild(add_book_btn);
+
+add_book_btn.addEventListener("click", () => display_form());
+

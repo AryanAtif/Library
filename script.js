@@ -36,6 +36,8 @@ function display_form ()
   const name_input = document.createElement("input");
   name_input.setAttribute("id", "name");
   name_input.setAttribute("type", "text");
+  name_input.setAttribute("name", "name");
+  name_input.setAttribute("required", "");
   name_div.appendChild(name_input);
 
   /* Author */
@@ -51,6 +53,8 @@ function display_form ()
   const author_input = document.createElement("input");
   author_input.setAttribute("id", "author");
   author_input.setAttribute("type", "text");
+  author_input.setAttribute("name", "author");
+  author_input.setAttribute("required", "");
   author_div.appendChild(author_input);
 
   /* Page Count */
@@ -66,6 +70,8 @@ function display_form ()
   const pg_count_input = document.createElement("input");
   pg_count_input.setAttribute("id", "pg_count");
   pg_count_input.setAttribute("type", "tel");
+  pg_count_input.setAttribute("name", "pg_count");
+  pg_count_input.setAttribute("required", "");
   pg_count_div.appendChild(pg_count_input);
   
   /* Page Count */
@@ -101,6 +107,13 @@ function display_form ()
   not_read_input.setAttribute("name", "is_read");
   not_read_input.setAttribute("checked", "");
   is_read_div.appendChild(not_read_input);
+
+  const submit_button = document.createElement("input");
+  submit_button.setAttribute("type", "submit");
+  submit_button.setAttribute("value", "Add Book");
+  submit_button.setAttribute("inputmode", "numeric");
+  form.appendChild(submit_button);
+  
 }
 
 function print_books ()

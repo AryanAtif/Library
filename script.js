@@ -8,8 +8,6 @@ add_book_btn.addEventListener("click", () =>
   {
     add_book_btn.setAttribute("disabled", "");
     display_form();
-    remove_form();
-    add_book_btn.removeAttribute("disabled");
   });
 
 
@@ -136,7 +134,7 @@ function display_form ()
       e.preventDefault(); 
       store_book ();
       delete_form();
-
+      add_book_btn.removeAttribute("disabled");
   }); 
 
 }

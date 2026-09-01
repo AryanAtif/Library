@@ -1,4 +1,17 @@
 booklist = [];
+let books_added = 0;
+
+const add_book_btn = document.querySelector(".add-book");
+document.body.appendChild(add_book_btn);
+
+add_book_btn.addEventListener("click", () => 
+  {
+    add_book_btn.setAttribute("disabled", "");
+    display_form();
+    remove_form();
+    add_book_btn.removeAttribute("disabled");
+  });
+
 
 function Book (name, author, pg_count, is_read)
 {
@@ -6,6 +19,8 @@ function Book (name, author, pg_count, is_read)
   this.author = author;
   this.pg_count = pg_count;
   this.is_read = is_read;
+  this.index = books_added;
+  books_added++;
 
   this.id = crypto.randomUUID();
 }
@@ -21,6 +36,9 @@ function display_form ()
   * Create a form to take the data
   */
   const form = document.createElement("form");
+  form.setAttribute("class", "book-form");
+  form.setAttribute("action", " ");
+  form.setAttribute("method", "POST");
   document.body.appendChild(form);
 
   /* Book Name */
@@ -108,12 +126,36 @@ function display_form ()
   not_read_input.setAttribute("checked", "");
   is_read_div.appendChild(not_read_input);
 
-  const submit_button = document.createElement("input");
-  submit_button.setAttribute("type", "submit");
+
+  const submit_button = document.createElement("button");
   submit_button.setAttribute("value", "Add Book");
-  submit_button.setAttribute("inputmode", "numeric");
   form.appendChild(submit_button);
   
+  submit_button.addEventListener("click", (e) =>
+  {
+      e.preventDefault(); 
+      store_book ();
+      delete_form();
+
+  }); 
+
+}
+
+function store_book()
+{
+  const form = document.querySelector(".book-form");
+  const book_name = form.elements["name"];
+  const author = form.elements["author"];
+  const pg_count = form.elements["pg_count"];
+  const is_read = form.elements["is_read"];
+
+  add_book (book_name.value, author.value, pg_count.value, is_read.value);
+}
+
+function delete_form()
+{
+  const form = document.querySelector(".book-form");
+  form.remove();
 }
 
 function print_books ()
@@ -142,6 +184,10 @@ function print_books ()
   const is_read = document.createElement("th");
   is_read.textContent = "Has been read?"
   table_header.appendChild(is_read);
+ /* 
+  const delete_book = document.createElement("th");
+  delete_book.textContent = "Delete the book"
+  table_header.appendChild(delete_book);*/
   
   for (i in booklist)
   {
@@ -167,15 +213,20 @@ function print_books ()
     const book_is_read = document.createElement("td");
     book_is_read.textContent = booklist[i].is_read;
     row.appendChild (book_is_read);
+
+
+    const del_book = document.createElement("td");
+    row.appendChild (del_book);
+
+    const del_btn = document.createElement("button");
+    del_btn.setAttribute("value", "Delete Book");
+    del_book.appendChild (del_btn);
+  
+    del_btn.addEventListener("click", () =>
+    { 
+      booklist.splice(booklist[i].index, 1);
+      print_books();
+      });
   }
+
 }
-
-const add_book_btn = document.querySelector(".add-book");
-document.body.appendChild(add_book_btn);
-
-add_book_btn.addEventListener("click", () => 
-  {
-    add_book_btn.setAttribute("disabled", "");
-    display_form();
-  });
-

@@ -10,6 +10,9 @@ add_book_btn.addEventListener("click", () =>
     display_form();
   });
 
+add_book("The Stranger", "Albert Camus", 123, true);
+add_book("1984", "Geroge Orwell", 231, true);
+add_book("Debt", "David Grabaer", 500, false);
 
 function Book (name, author, pg_count, is_read)
 {
@@ -126,6 +129,7 @@ function display_form ()
 
 
   const submit_button = document.createElement("button");
+  submit_button.textContent = "Add Book";
   submit_button.setAttribute("value", "Add Book");
   form.appendChild(submit_button);
   
@@ -158,7 +162,10 @@ function delete_form()
 
 function print_books ()
 {
+  if (booklist.length < 1) return;
+
   const table = document.createElement("table");
+  table.setAttribute("class", "book-table");
   document.body.appendChild(table);
   const table_header = document.createElement("tr");
   table.appendChild(table_header);
@@ -217,14 +224,21 @@ function print_books ()
     row.appendChild (del_book);
 
     const del_btn = document.createElement("button");
-    del_btn.setAttribute("value", "Delete Book");
+    del_btn.textContent = "Delete Book";
     del_book.appendChild (del_btn);
   
     del_btn.addEventListener("click", () =>
     { 
-      booklist.splice(booklist[i].index, 1);
-      print_books();
+      delete_books(i);
       });
   }
+}
 
+function delete_books(book_index)
+{
+  booklist.splice(book_index.index, 1);
+
+  const books_table = document.querySelector(".book-table");
+  books_table.remove();
+  print_books();
 }

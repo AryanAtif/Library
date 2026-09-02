@@ -26,6 +26,12 @@ function Book (name, author, pg_count, is_read)
   this.id = crypto.randomUUID();
 }
 
+Book.prototype.toggleRead = function ()
+{
+  if (this.is_read) this.is_read = false;
+  else this.is_read = true;
+}
+
 function add_book (name, author, pg_count, is_read)
 {
   let book = new Book (name, author, pg_count, is_read);
@@ -139,6 +145,7 @@ function display_form ()
       store_book ();
       delete_form();
       add_book_btn.removeAttribute("disabled");
+      print_books();
   }); 
 
 }
@@ -162,6 +169,9 @@ function delete_form()
 
 function print_books ()
 {
+  const books_table = document.querySelector(".book-table");
+  if (books_table != null) books_table.remove();
+  
   if (booklist.length < 1) return;
 
   const table = document.createElement("table");
@@ -189,10 +199,10 @@ function print_books ()
   const is_read = document.createElement("th");
   is_read.textContent = "Has been read?"
   table_header.appendChild(is_read);
- /* 
+  
   const delete_book = document.createElement("th");
   delete_book.textContent = "Delete the book"
-  table_header.appendChild(delete_book);*/
+  table_header.appendChild(delete_book);
   
   for (i in booklist)
   {
@@ -214,31 +224,54 @@ function print_books ()
     const book_pg_count = document.createElement("td");
     book_pg_count.textContent = booklist[i].pg_count;
     row.appendChild (book_pg_count);
-
+/*
     const book_is_read = document.createElement("td");
     book_is_read.textContent = booklist[i].is_read;
     row.appendChild (book_is_read);
+*/
 
+    const book_is_read = document.createElement("button");
+    book_is_read.setAttribute("id", booklist.at(i).id);
+    if (booklist.at(i).is_read) book_is_read.textContent = "Read";
+    else book_is_read.textContent = "Not read";
+    row.appendChild (book_is_read);
+    
+    book_is_read.addEventListener("click", () =>
+    { 
+        change_read(book_is_read.id);
+      });
+    
 
     const del_book = document.createElement("td");
     row.appendChild (del_book);
 
     const del_btn = document.createElement("button");
     del_btn.textContent = "Delete Book";
+
+    del_btn.setAttribute("id", booklist.at(i).id);
     del_book.appendChild (del_btn);
   
-    del_btn.addEventListener("click", () =>
-    { 
-      delete_books(i);
-      });
-  }
+  del_btn.addEventListener("click", () =>
+  { 
+      delete_books(del_btn.id);
+    });
+}
 }
 
-function delete_books(book_index)
+function delete_books(book_id)
 {
-  booklist.splice(book_index.index, 1);
+  let del_index = booklist.findIndex((book) => book.id == book_id);
+  booklist.splice (del_index, 1);
 
-  const books_table = document.querySelector(".book-table");
-  books_table.remove();
   print_books();
 }
+
+function change_read(book_id)
+{
+  let read_id = booklist.findIndex((book) => book.id == book_id);
+  booklist.at(read_id).toggleRead();
+
+  print_books();
+}
+
+

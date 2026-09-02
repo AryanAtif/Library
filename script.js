@@ -180,10 +180,6 @@ function print_books ()
   const table_header = document.createElement("tr");
   table.appendChild(table_header);
   
-  const id = document.createElement("th");
-  id.textContent = "Book ID"
-  table_header.appendChild(id);
-
   const name = document.createElement("th");
   name.textContent = "Name"
   table_header.appendChild(name);
@@ -209,10 +205,6 @@ function print_books ()
     const row = document.createElement("tr");
     table.appendChild(row);
 
-    const book_id = document.createElement("td");
-    book_id.textContent = booklist[i].id;
-    row.appendChild (book_id);
-
     const book_name = document.createElement("td");
     book_name.textContent = booklist[i].name;
     row.appendChild (book_name);
@@ -224,11 +216,6 @@ function print_books ()
     const book_pg_count = document.createElement("td");
     book_pg_count.textContent = booklist[i].pg_count;
     row.appendChild (book_pg_count);
-/*
-    const book_is_read = document.createElement("td");
-    book_is_read.textContent = booklist[i].is_read;
-    row.appendChild (book_is_read);
-*/
 
     const book_is_read = document.createElement("button");
     book_is_read.setAttribute("id", booklist.at(i).id);
@@ -238,8 +225,8 @@ function print_books ()
     
     book_is_read.addEventListener("click", () =>
     { 
-        change_read(book_is_read.id);
-      });
+      change_read(book_is_read.id);
+    });
     
 
     const del_book = document.createElement("td");
@@ -251,11 +238,11 @@ function print_books ()
     del_btn.setAttribute("id", booklist.at(i).id);
     del_book.appendChild (del_btn);
   
-  del_btn.addEventListener("click", () =>
-  { 
+    del_btn.addEventListener("click", () =>
+    { 
       delete_books(del_btn.id);
     });
-}
+  }
 }
 
 function delete_books(book_id)
@@ -273,5 +260,3 @@ function change_read(book_id)
 
   print_books();
 }
-
-
